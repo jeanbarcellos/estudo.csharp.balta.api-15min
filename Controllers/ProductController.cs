@@ -19,6 +19,7 @@ namespace testef.Controllers
         {
             var products = await context.Products
                 .Include(x => x.Category)
+                .AsNoTracking()
                 .ToListAsync();
 
             return products;
@@ -68,5 +69,62 @@ namespace testef.Controllers
             }
 
         }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Product>> Put(
+            [FromServices] DataContext context,
+            int id,
+            [FromBody] Product model
+        )
+        {
+            if (id != model.Id)
+            {
+                return NotFound(new { message = "Produto não encontrada" });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                context.Entry<Product>(model).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+                return model;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest(new { message = "Não foi poisível atualizar o produto!" });
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Product>> Delete(
+            [FromServices] DataContext context,
+            int id
+        )
+        {
+            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (product == null)
+            {
+                return NotFound(new { message = "Produto não encontrato" });
+            }
+
+            try
+            {
+                context.Products.Remove(product);
+                await context.SaveChangesAsync();
+                return product;
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "Não foi possível remover o produto!" });
+            }
+        }
+
     }
 }
