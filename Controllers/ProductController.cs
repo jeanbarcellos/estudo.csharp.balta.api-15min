@@ -11,40 +11,17 @@ namespace testef.Controllers
 {
     [ApiController]
     [Route("v1/products")]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Product>>> Get([FromServices] DataContext context)
+        public async Task<ActionResult<List<Product>>> Get(
+            [FromServices] DataContext context
+        )
         {
             var products = await context.Products
                 .Include(x => x.Category)
                 .AsNoTracking()
-                .ToListAsync();
-
-            return products;
-        }
-
-        [HttpGet]
-        [Route("{id:int}")]
-        public async Task<ActionResult<Product>> GetById([FromServices] DataContext context, int id)
-        {
-            var product = await context.Products
-                .Include(x => x.Category) // Pra incluir a category no retorno
-                .AsNoTracking() // Pro EF não criar Proxy dos objetos
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            return product;
-        }
-
-        [HttpGet]
-        [Route("categories/{id:int}")]
-        public async Task<ActionResult<List<Product>>> GetByCategory([FromServices] DataContext context, int id)
-        {
-            var products = await context.Products
-                .Include(x => x.Category)
-                .AsNoTracking()
-                .Where(x => x.CategoryId == id)
                 .ToListAsync();
 
             return products;
@@ -68,6 +45,21 @@ namespace testef.Controllers
                 return BadRequest(ModelState);
             }
 
+        }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Product>> GetById(
+            [FromServices] DataContext context,
+            int id
+        )
+        {
+            var product = await context.Products
+                .Include(x => x.Category) // Pra incluir a category no retorno
+                .AsNoTracking() // Pro EF não criar Proxy dos objetos
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return product;
         }
 
         [HttpPut]
@@ -124,6 +116,22 @@ namespace testef.Controllers
             {
                 return BadRequest(new { message = "Não foi possível remover o produto!" });
             }
+        }
+
+        [HttpGet]
+        [Route("categories/{id:int}")]
+        public async Task<ActionResult<List<Product>>> GetByCategory(
+            [FromServices] DataContext context,
+            int id
+        )
+        {
+            var products = await context.Products
+                .Include(x => x.Category)
+                .AsNoTracking()
+                .Where(x => x.CategoryId == id)
+                .ToListAsync();
+
+            return products;
         }
 
     }

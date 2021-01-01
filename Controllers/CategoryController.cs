@@ -14,12 +14,16 @@ namespace testeed.Controllers
     {
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Category>>> Get([FromServices] DataContext context)
+        public async Task<ActionResult<List<Category>>> Get(
+            [FromServices] DataContext context
+        )
         {
             var categories = await context.Categories.ToListAsync();
             return categories;
         }
 
+        [HttpPost]
+        [Route("")]
         public async Task<ActionResult<Category>> Post(
             [FromServices] DataContext context,
             [FromBody] Category model
@@ -36,6 +40,18 @@ namespace testeed.Controllers
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Category>> GetById(
+            [FromServices] DataContext context,
+            int id
+        )
+        {
+            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+            return category;
         }
 
         [HttpPut]
@@ -97,7 +113,7 @@ namespace testeed.Controllers
                 return BadRequest(new { message = "Não foi possível remover a categoria!" });
             }
         }
-    }
 
+    }
 
 }
