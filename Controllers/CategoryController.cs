@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using testeef.Data;
 using testeef.Models;
 using System;
-using Microsoft.AspNetCore.Authorization;
 
 namespace testeed.Controllers
 {
@@ -50,7 +49,7 @@ namespace testeed.Controllers
             // Verificar se o ID informado é o mesmo do modelo
             if (id != model.Id)
             {
-                return NotFound(new { message = "Categoria não encontrada" });
+                return NotFound(new { message = "Categoria não encontrada!" });
             }
 
             // Verificar se os dados são válidos
@@ -68,7 +67,7 @@ namespace testeed.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                return BadRequest(new { message = "Não foi poisível atualizar a categoria" });
+                return BadRequest(new { message = "Não foi poisível atualizar a categoria!" });
             }
 
         }
@@ -84,7 +83,7 @@ namespace testeed.Controllers
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category == null)
             {
-                return NotFound(new { message = "Categorua não encontrada" });
+                return NotFound(new { message = "Categoria não encontrada!" });
             }
 
             try
