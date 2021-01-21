@@ -1,15 +1,15 @@
-Repositório utilizado apenas para estudo e testes
+*Repositório apenas para estudo*
 
-Desenvolvido com base no vídeo:
+# Criando uma API com ASP.NET Core 3 e EF Core 3 em menos de 15 minutos
 
-### Criando uma API com ASP.NET Core 3 e EF Core 3 em menos de 15 minutos
+Desenvolvido com base no vídeo do [Canal do YouTube balta.io](https://www.youtube.com/watch?v=but7jqjopKM&)
 
-By: balta.io
+Instrutor:
 
+* [André Baltiéri](balta.io)
 
 Referências:
 
 * https://www.youtube.com/watch?v=but7jqjopKM&
 * https://balta.io/blog/aspnet-core-dependency-injection
 * https://github.com/balta-io/1976
-
