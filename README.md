@@ -6,7 +6,7 @@ Desenvolvido com base no vídeo do [Canal do YouTube balta.io](https://www.youtu
 
 Instrutor:
 
-* [André Baltiéri](balta.io)
+* [André Baltiéri](https://balta.io)
 
 Referências:
 
